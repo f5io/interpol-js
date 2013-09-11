@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cp -rf lib/interpol.js dist/interpol.js
+uglifyjs dist/interpol.js -o dist/interpol.min.js
+
+echo '[Interpol] Build complete.'
