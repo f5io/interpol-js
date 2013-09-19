@@ -201,7 +201,7 @@
 	_.FramePipeline = function() {
 		var _t = this;
 		_t.pipeline = {};
-		_t.then = Date.now();
+		_t.then = new Date().getTime();
 		_t.now = undefined;
 		_t.raf = undefined;
 		_t.delta = undefined;
@@ -227,7 +227,7 @@
 		_tick : function tick() {
 			var _t = this;
 			_t.raf = _.requestAnimFrame.call(w, tick.bind(_t));
-			_t.now = Date.now();
+			_t.now = new Date().getTime();
 			_t.delta = _t.now - _t.then;
 			if (_t.delta > _t.interval) {
 				for (var n in _t.pipeline) {
