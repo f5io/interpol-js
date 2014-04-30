@@ -2,5 +2,6 @@
 
 cp -rf lib/interpol.js dist/interpol.js
 uglifyjs dist/interpol.js -o dist/interpol.min.js
+gzip -c dist/interpol.min.js | wc -c
 
 echo '[Interpol] Build complete.'

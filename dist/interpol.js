@@ -1,4 +1,12 @@
-(function(w) {
+(function(factory) {
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = factory(window);
+    } else {
+        self.Interpol = self.iN = factory(window);
+    }
+
+})(function(w) {
 
 	'use strict';
 
@@ -197,6 +205,20 @@
 	})();
 
 	_.noop = function() {};
+	_.tick = function() {
+		var _t = this;
+		return function() {
+			_t.raf = _.requestAnimFrame.call(w, _.tick.call(_t));
+			_t.now = new Date().getTime();
+			_t.delta = _t.now - _t.then;
+			if (_t.delta > _t.interval) {
+				for (var n in _t.pipeline) {
+					_t.pipeline[n]();
+				}
+				_t.then = _t.now - (_t.delta % _t.interval);
+			}
+		}
+	}
 
 	_.FramePipeline = function() {
 		var _t = this;
@@ -216,25 +238,16 @@
 			delete this.pipeline[name];
 		},
 		start : function() {
-			this._tick();
+			_.tick.call(this)();
+		},
+		has : function(name) {
+			return name in this.pipeline;
 		},
 		pause : function() {
 			_.cancelAnimFrame.call(w, this.raf);
 		},
 		setFPS : function(fps) {
 			this.interval = 1000 / fps;
-		},
-		_tick : function tick() {
-			var _t = this;
-			_t.raf = _.requestAnimFrame.call(w, tick.bind(_t));
-			_t.now = new Date().getTime();
-			_t.delta = _t.now - _t.then;
-			if (_t.delta > _t.interval) {
-				for (var n in _t.pipeline) {
-					_t.pipeline[n]();
-				}
-				_t.then = _t.now - (_t.delta % _t.interval);
-			}
 		}
 	};
 
@@ -278,6 +291,7 @@
 		_t.delayDuration = 0;
 		_t.isDelayed = false;
 		_t.repeatCount = 0;
+		_t.paused = false;
 		_t.easing = _.easing.easeNone;
 		_t.onStep = _.noop;
 		_t.onComplete = _.noop;
@@ -401,6 +415,15 @@
 			this.hasStarted = false;
 			return this;
 		},
+		pause : function() {
+			_.pipeline.remove(this.name);
+			return this;
+		},
+		play : function() {
+			if (_.pipeline.has(this.name)) return;
+			_.pipeline.add(this.name, this.stpFn);
+			return this;
+		},
 		queue : function() {
 			return this.controller.queue();
 		}
@@ -420,6 +443,8 @@
 		return new _.TweenController().queue();
 	};
 
+	_iN.pipeline = _.pipeline;
+
 	Function.prototype.bind = Function.prototype.bind || function() {
 		return function(context) {
 			var fn = this,
@@ -436,6 +461,6 @@
 		};
 	};
 
-	w.Interpol = w.iN = _iN;
+	return _iN;
 
-})(window);
+});
