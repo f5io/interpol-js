@@ -1,0 +1,26 @@
+{
+  "name": "interpol",
+  "version": "1.0.0",
+  "description": "A micro tween library built on requestAnimationFrame",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/f5io/interpol-js.git"
+  },
+  "keywords": [
+    "tween",
+    "raf"
+  ],
+  "author": "Joe Harlow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/f5io/interpol-js/issues"
+  },
+  "homepage": "https://github.com/f5io/interpol-js"
+}
