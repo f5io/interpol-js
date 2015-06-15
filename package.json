@@ -1,5 +1,5 @@
 {
-  "name": "interpol",
+  "name": "interpol-js",
   "version": "1.0.0",
   "description": "A micro tween library built on requestAnimationFrame",
   "main": "index.js",
