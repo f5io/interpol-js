@@ -1,8 +1,8 @@
 {
   "name": "interpol-js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A micro tween library built on requestAnimationFrame",
-  "main": "index.js",
+  "main": "lib/interpol.js",
   "directories": {
     "example": "example"
   },
